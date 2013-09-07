@@ -31,7 +31,7 @@ public class IndexServlet extends HttpServlet
 
 				String filnamn = rs.getString("filename").substring(imageDirectory.toString().length());
 
-				String image = "<IMG width=100% src='/photopirate/bilder/" + filnamn + "'/>";
+				String image = "<IMG width=10% src='/photopirate/bilder/" + filnamn + "'/>";
 				bilderString += image += username; 
 			}
 
