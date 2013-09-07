@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@MultipartConfig
+
 public class LoginServlet extends HttpServlet
 {
 	@Override
@@ -17,13 +17,12 @@ public class LoginServlet extends HttpServlet
 		String user = req.getParameter("username");
 		String password = req.getParameter("password");
 		
-		
-
 		resp.getOutputStream().print(user + " " + password);
 		
 		int success = 0;
-		
-
+			
+		if("martalizer".contains(user))
+			success = 1;
 		
 /*		try
 		{
@@ -44,10 +43,11 @@ public class LoginServlet extends HttpServlet
 			e.printStackTrace();
 		} */
 
+		
 	    if(success == 1)
 	    {
-			//req.getRequestDispatcher("/login").forward(req, resp);
-	    	resp.sendRedirect("/index.html?martalizer");
+	    	req.getSession().setAttribute("user", user);
+	    	resp.sendRedirect("index.html");
 	    }
 		else
 		{

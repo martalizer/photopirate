@@ -44,13 +44,10 @@ public class IndexServlet extends HttpServlet
 			e.printStackTrace();
 		}
 
-		req.setAttribute("bilder", bilderString);
-		
+		req.setAttribute("bilder", bilderString);		
 		req.setAttribute("content", "<a href='upload.html'>Upload image</a>");
-		
-		//req.getRequestDispatcher("/login.jsp").forward(req, resp);
-	
-		req.getRequestDispatcher("/index.jsp").forward(req, resp);
+			
+		req.getRequestDispatcher("index.jsp").forward(req, resp);
 		
 		
 	}
