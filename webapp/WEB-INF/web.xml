@@ -32,6 +32,12 @@
 		<servlet-class>IndexServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<display-name>Image Server Servlet</display-name>
+		<servlet-name>ImageServer</servlet-name>
+		<servlet-class>ImageServer</servlet-class>
+	</servlet>
+	
 	<filter>
 		<filter-name>Login Filter</filter-name>
 		<filter-class>LoginFilter</filter-class>
@@ -50,6 +56,11 @@
 	<servlet-mapping>
 		<servlet-name>IndexServlet</servlet-name>
 		<url-pattern>/index.html</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ImageServer</servlet-name>
+		<url-pattern>/image</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

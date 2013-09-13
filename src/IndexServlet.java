@@ -26,12 +26,17 @@ public class IndexServlet extends HttpServlet
 
 			while (rs.next())
 			{
-				int id = rs.getInt("id");
+				// int id = rs.getInt("id");
 				String username = rs.getString("username");
 
 				String filnamn = rs.getString("filename").substring(imageDirectory.toString().length());
 
-				String image = "<IMG width=10% src='/photopirate/bilder/" + filnamn + "'/>";
+				// String image = "<a href='/photopirate/bilder/" + filnamn + "'>" + "<img width=10% src='/photopirate/bilder/" + filnamn + "'/></a>";
+				
+				String image = "<a href='/photopirate/image?file=" + filnamn + "&type=full'>" + "<img src='/photopirate/image?file=" + filnamn + "&type=thumb'></a>";
+				
+				// http://martalizer.se/photopirate/image?file=a62c8047-4612-4a9e-8edb-200cd58b6bb1.jpg&type=thumb
+					
 				bilderString += image += username; 
 			}
 

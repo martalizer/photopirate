@@ -16,12 +16,12 @@ public class LoginServlet extends HttpServlet
 	{
 		String user = req.getParameter("username");
 		String password = req.getParameter("password");
-		
-		resp.getOutputStream().print(user + " " + password);
-		
+				
 		int success = 0;
 			
-		if("martalizer".contains(user))
+		if("martalizer".equals(user) && "xzxz675".equals(password))
+			success = 1;
+		if("matte".equals(user))
 			success = 1;
 		
 /*		try
@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet
 	    }
 		else
 		{
-			String svar ="fail, login incorrect, no user:" +user;
+			String svar ="<div>fail, login incorrect, wrong password or username</div>";
 			resp.getOutputStream().print(svar);
 		}
 
