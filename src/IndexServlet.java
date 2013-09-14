@@ -30,14 +30,14 @@ public class IndexServlet extends HttpServlet
 				String username = rs.getString("username");
 
 				String filnamn = rs.getString("filename").substring(imageDirectory.toString().length());
-
-				// String image = "<a href='/photopirate/bilder/" + filnamn + "'>" + "<img width=10% src='/photopirate/bilder/" + filnamn + "'/></a>";
 				
-				String image = "<a href='/photopirate/image?file=" + filnamn + "&type=full'>" + "<img src='/photopirate/image?file=" + filnamn + "&type=thumb'></a>";
+				String image = "<a href='/photopirate/view?file=" + filnamn + "'>" + "\r\n\t\t\t<img class='preview' src='/photopirate/image?file=" + filnamn + "&type=thumb'></a>";
+											
+				String imageelement = "\n\r\t\t<div class='previewBox'>\n\r\t\t\t" + image + "<br/>" + username + " \n\r\t\t</div>";
 				
-				// http://martalizer.se/photopirate/image?file=a62c8047-4612-4a9e-8edb-200cd58b6bb1.jpg&type=thumb
-					
-				bilderString += image += username; 
+				
+				bilderString += imageelement; 
+				
 			}
 
 			rs.close();
