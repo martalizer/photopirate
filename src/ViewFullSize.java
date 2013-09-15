@@ -11,10 +11,7 @@ public class ViewFullSize extends HttpServlet
 		imagename += req.getParameter("file");
 		
 		String response = "<div><a href = '/photopirate/image?file=" + imagename + "&type=full'><img height='100%' src='/photopirate/image?file=" + imagename + "&type=full'></a></div>";
-			
-		
-		
-		
+					
 		resp.getOutputStream().print(response);
 	}
 }
