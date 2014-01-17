@@ -26,7 +26,7 @@ public class LoginFilter implements Filter
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		String contextPath = httpRequest.getContextPath();
-		if (httpRequest.getSession().getAttribute("user") != null || httpRequest.getRequestURI().equals(contextPath + "/login") || httpRequest.getRequestURI().equals(contextPath + "/login.jsp"))
+		if (httpRequest.getSession().getAttribute("user") != null)
 		{
 			filterChain.doFilter(request, response);
 		} else

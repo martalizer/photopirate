@@ -11,7 +11,6 @@ public class IndexServlet extends HttpServlet
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException
 	{
 		String bilderString = "";
-		String imageDirectory = "/opt/tomcat7/webapps/photopirate/bilder/";
 				
 		Connection conn;
 		try
@@ -23,21 +22,20 @@ public class IndexServlet extends HttpServlet
 			String sql = "SELECT id, username, filename FROM photopirate";
 
 			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next())
+					
+			while (rs.next()){};
+			
+			while (rs.previous())
 			{
-				// int id = rs.getInt("id");
 				String username = rs.getString("username");
 
-				String filnamn = rs.getString("filename").substring(imageDirectory.toString().length());
+				String filnamn = rs.getString("filename");
 				
-				String image = "<a href='/photopirate/view?file=" + filnamn + "'>" + "\r\n\t\t\t<img class='preview' src='/photopirate/image?file=" + filnamn + "&type=thumb'></a>";
+				String image = "<a title='"+ username +"' href='/bilder/" + filnamn + "' rel='bild'>" + "\r\n\t\t\t<img alt='" + username + " 'class='preview' src='/image?file=" + filnamn + "&type=thumb'></a>";
 											
-				String imageelement = "\n\r\t\t<div class='previewBox'>\n\r\t\t\t" + image + "<br/>" + username + " \n\r\t\t</div>";
-				
-				
-				bilderString += imageelement; 
-				
+				String imageelement = "\n\r\t\t\n\r\t\t\t" + image + " \n\r\t\t";
+							
+				bilderString += imageelement; 				
 			}
 
 			rs.close();
@@ -50,8 +48,7 @@ public class IndexServlet extends HttpServlet
 		}
 
 		req.setAttribute("bilder", bilderString);		
-		req.setAttribute("content", "<a href='upload.html'>Upload image</a>");
-			
+		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 		
 		

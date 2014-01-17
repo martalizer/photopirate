@@ -9,6 +9,22 @@
 	</servlet>
 	
 	<servlet>
+		<display-name>Image Removal Servlet</display-name>
+		<servlet-name>ImageRemovalServlet</servlet-name>
+		<servlet-class>DeleteImage</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>Remove From Database</display-name>
+		<servlet-name>RemoveFromDatabase</servlet-name>
+		<servlet-class>RemoveFromDatabase</servlet-class>
+	</servlet>	
+	<servlet>
+		<display-name>Register User Servlet</display-name>
+		<servlet-name>RegisterServlet</servlet-name>
+		<servlet-class>RegisterServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<display-name>Index View Servlet</display-name>
 		<servlet-name>IndexViewServlet</servlet-name>
 		<servlet-class>IndexView</servlet-class>
@@ -64,7 +80,10 @@
 		<url-pattern>/index.html</url-pattern>
 	</servlet-mapping>
 	
-	
+	<servlet-mapping>
+		<servlet-name>RegisterServlet</servlet-name>
+		<url-pattern>/register</url-pattern>
+	</servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>ViewFullSize</servlet-name>
@@ -83,13 +102,34 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
+		<servlet-name>ImageRemovalServlet</servlet-name>
+		<url-pattern>/deleteimagelist</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RemoveFromDatabase</servlet-name>
+		<url-pattern>/deletethisimage</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
 		<servlet-name>LogoutServlet</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 
 	<filter-mapping>
 		<filter-name>Login Filter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/upload.html</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Login Filter</filter-name>
+		<url-pattern>/upload_file</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>Login Filter</filter-name>
+		<url-pattern>/deleteimagelist</url-pattern>
+	</filter-mapping>
+	
+	
 
 </web-app>

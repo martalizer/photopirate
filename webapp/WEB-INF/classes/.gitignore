@@ -1,0 +1,11 @@
+/DeleteImage.class
+/FileUploadServlet.class
+/ImageServer.class
+/IndexServlet.class
+/LoginFilter.class
+/LoginServlet.class
+/Logout.class
+/RegisterServlet.class
+/RemoveFromDatabase.class
+/ThumbnailCreator.class
+/ViewFullSize.class

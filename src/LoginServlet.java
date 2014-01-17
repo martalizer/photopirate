@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,43 +18,34 @@ public class LoginServlet extends HttpServlet
 		String user = req.getParameter("username");
 		String password = req.getParameter("password");
 				
-		int success = 0;
-			
-		if("martalizer".equals(user) && "xzxz675".equals(password))
-			success = 1;
-		if("matte".equals(user))
-			success = 1;
+		boolean success = false;
 		
-/*		try
-		{
+		Connection conn;
+		try		{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("INSERT INTO photopirate (username, filename) VALUES ('"+user+"', '" + filename.toString() + "')");
+			String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
+			ResultSet rs = stmt.executeQuery(sql);
 
-			resp.setContentType("TEXT/HTML");
-			resp.getOutputStream().write("Image uploaded!".getBytes());		
+			while (rs.next())	{
+				success = true;
+			}
 
-			stmt.close();
-			conn.close();
-		} catch (Exception e)
-		{
+			rs.close();			stmt.close();			conn.close();
+		} catch (Exception e)		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
-
+		}
 		
-	    if(success == 1)
-	    {
+	    if(success) {
 	    	req.getSession().setAttribute("user", user);
 	    	resp.sendRedirect("index.html");
 	    }
-		else
-		{
+	    else {
 			String svar ="<div>fail, login incorrect, wrong password or username</div>";
 			resp.getOutputStream().print(svar);
 		}
-
 	}	
 }

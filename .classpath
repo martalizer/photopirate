@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/servlet-api.jar" sourcepath="/Users/hedenberg/.m2/repository/org/apache/tomcat/tomcat-servlet-api/7.0.42/tomcat-servlet-api-7.0.42-sources.jar"/>
 	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/mysql-connector-java-5.1.26-bin.jar"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>

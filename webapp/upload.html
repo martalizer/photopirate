@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+</head>
   <body>
-    <form action='upload_file' method='post' enctype='multipart/form-data'> 
-      <label for='file'>Filename:</label>
+  <div id="upload">
+    <form class="pure-form" action='upload_file' method='post' enctype='multipart/form-data'> 
+    <div class="pure-control-group">
+      <label for='file'>Filename:</label><br>
       <input type='file' name='file' id='file'><br>
       <input type='submit' name='submit' value='Submit'>
+      </div>
     </form>
+    </div>
   </body>
 </html>
