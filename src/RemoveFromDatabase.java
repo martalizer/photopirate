@@ -12,7 +12,7 @@ public class RemoveFromDatabase extends HttpServlet {
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException
 	{
 		String messageString = "";
-		String ImageId = req.getParameter("id");
+		Integer ImageId = Integer.parseInt(req.getParameter("id"));
 				
 		Connection conn;
 		try

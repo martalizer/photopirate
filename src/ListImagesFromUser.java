@@ -5,11 +5,13 @@ import java.sql.Statement;
 
 import javax.servlet.http.HttpServlet;
 
-public class IndexServlet extends HttpServlet
-{
+
+public class ListImagesFromUser extends HttpServlet {
 	@Override
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException
 	{
+		String user = req.getPathInfo();
+		user = user.substring(1);
 		String bilderString = "";
 				
 		Connection conn;
@@ -19,7 +21,7 @@ public class IndexServlet extends HttpServlet
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT id, username, filename FROM photopirate Order by id DESC";
+			String sql = "SELECT id, username, filename FROM photopirate where username='"+user+"' Order by id DESC";
 
 			ResultSet rs = stmt.executeQuery(sql);
 								
@@ -39,15 +41,17 @@ public class IndexServlet extends HttpServlet
 			rs.close();
 			stmt.close();
 			conn.close();
+
 		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		req.setAttribute("bilder", bilderString);		
-		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
-		req.getRequestDispatcher("index.jsp").forward(req, resp);
+		req.setAttribute("bilder", bilderString);	
+
+		req.setAttribute("content", "<a href='/upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
+		req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		
 		
 	}

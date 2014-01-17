@@ -14,7 +14,7 @@ public class RegisterServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		boolean sucess = false;
+		boolean success = false;
 	//	boolean nonzero = false;
 		String svar = "wtf";
 		
@@ -22,13 +22,13 @@ public class RegisterServlet extends HttpServlet
 		String password = req.getParameter("password");
 		
 		if ((user+password).isEmpty())
-			sucess = false;
+			success = false;
 		else
-			sucess = true;
+			success = true;
 			
 		
 		
-		if(!sucess) {		
+		if(!success) {		
 			svar ="<div>fail, empty password or username</div>";
 
 		}	
