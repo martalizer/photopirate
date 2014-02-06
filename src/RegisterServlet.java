@@ -16,21 +16,20 @@ public class RegisterServlet extends HttpServlet
 	{
 		boolean success = false;
 	//	boolean nonzero = false;
-		String svar = "wtf";
+		String svar = "wtf, user exists or random error";
 		
 		String user = req.getParameter("username");
 		String password = req.getParameter("password");
 		
-		if ((user+password).isEmpty())
+		if (user.isEmpty() || password.isEmpty())
+		{
 			success = false;
+		}
 		else
 			success = true;
-			
-		
-		
+					
 		if(!success) {		
 			svar ="<div>fail, empty password or username</div>";
-
 		}	
 		else {	
 			Connection conn;

@@ -46,7 +46,7 @@ public class IndexServlet extends HttpServlet
 		}
 
 		req.setAttribute("bilder", bilderString);		
-		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
+		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a> | <a href='/register.jsp'>Register User</a>");		
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 		
 		

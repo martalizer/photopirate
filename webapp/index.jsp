@@ -12,6 +12,8 @@
 <body>
 <div><a href="/"><h1>martalizer</h1></a>
 </div>
+<div class='menu'><a href="/">Home</a> | <a href="logout">Logout</a> | <a href="login.jsp">Log in</a> | ${content}</div>
+<p>
 	
 	<tr><td>
 	<div id='gallery'>
@@ -28,6 +30,5 @@
 	    'margins' : 5
 	    });
     </script>
-    <div class='menu'><a href="logout">Logout</a> | <a href="login.jsp">Log in</a> | ${content}</div>
   </body>
 </html>
