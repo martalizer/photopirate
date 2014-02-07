@@ -13,6 +13,8 @@ public class DeleteImage extends HttpServlet {
 	{
 		String bilderString = "";
 		
+		String user = (String) req.getSession().getAttribute("user");
+		
 		Connection conn;
 		try
 		{
@@ -20,12 +22,11 @@ public class DeleteImage extends HttpServlet {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM photopirate"; // ORDER BY RAND()";
-
-			ResultSet rs = stmt.executeQuery(sql);
-					
-			// while (rs.next()){};
 			
+			String sql = "SELECT id, username, filename FROM photopirate where username='"+user+"' Order by id DESC";
+			
+			ResultSet rs = stmt.executeQuery(sql);
+								
 			while (rs.next())
 			{
 				String username = rs.getString("username");
@@ -51,7 +52,7 @@ public class DeleteImage extends HttpServlet {
 		}
 
 		req.setAttribute("bilder", bilderString);		
-		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
+		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);
 		
 		

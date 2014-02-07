@@ -13,6 +13,13 @@
 		<servlet-name>ImageRemovalServlet</servlet-name>
 		<servlet-class>DeleteImage</servlet-class>
 	</servlet>
+
+	<servlet>
+		<display-name>List Users Servlet</display-name>
+		<servlet-name>ListUsersServlet</servlet-name>
+		<servlet-class>ListUsers</servlet-class>
+	</servlet>	
+	
 	
 	<servlet>
 		<display-name>List Images from a stupid user</display-name>
@@ -125,6 +132,11 @@
 	<servlet-mapping>
 		<servlet-name>LogoutServlet</servlet-name>
 		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ListUsersServlet</servlet-name>
+		<url-pattern>/users</url-pattern>
 	</servlet-mapping>
 
 	<filter-mapping>
