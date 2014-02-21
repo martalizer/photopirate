@@ -29,8 +29,6 @@ public class DeleteImage extends HttpServlet {
 								
 			while (rs.next())
 			{
-				String username = rs.getString("username");
-
 				String filnamn = rs.getString("filename");
 				
 				String id = rs.getString("id");

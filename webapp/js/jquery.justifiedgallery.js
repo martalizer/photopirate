@@ -199,10 +199,11 @@ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain Vie
 			//now we have all the images index loaded in the row arra
 			if(settings.justifyLastRow){
 				extraW = Math.ceil((rowWidth - partialRowWidth + 1) / row.length);	
+				$(cont).append(buildContRow(row, images, extraW, settings));
 			}else{
 				extraW = 0;
 			}
-			$(cont).append(buildContRow(row, images, extraW, settings));
+			
 			//---------------------------
 
 			//Captions---------------------

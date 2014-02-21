@@ -15,7 +15,6 @@ public class RegisterServlet extends HttpServlet
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		boolean success = false;
-	//	boolean nonzero = false;
 		String svar = "wtf, user exists or random error";
 		
 		String user = req.getParameter("username");

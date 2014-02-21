@@ -10,23 +10,19 @@
 </head>
 
 <body>
-<div><a href="/"><h1>martalizer</h1></a>
+<div class='title'><a href="/"><h1>martalizer</h1></a>
 </div>
 <div class='menu'><a href="/">Home</a> | <a href="/users">List Users</a> | ${content}</div>
-<p>
-	
-	<tr><td>
+<p>	
 	<div id='gallery'>
 		${bilder}
 	</div>
-	</td></tr>
-   
     <script type="text/javascript">
 	    $("#gallery").justifiedGallery({
 	    'extension':'',
 	    'sizeRangeSuffixes' : {'lt100':'','lt240':'', 'lt320':'', 'lt500':'', 'lt640':'', 'lt1024':''},
 	   			
-	    'justifyLastRow' : 'true',
+	    'justifyLastRow' : false,
 	    'margins' : 5
 	    });
     </script>

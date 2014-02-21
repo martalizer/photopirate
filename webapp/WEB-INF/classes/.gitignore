@@ -3,6 +3,7 @@
 /ImageServer.class
 /IndexServlet.class
 /ListImagesFromUser.class
+/ListUsers.class
 /LoginFilter.class
 /LoginServlet.class
 /Logout.class
@@ -10,4 +11,3 @@
 /RemoveFromDatabase.class
 /ThumbnailCreator.class
 /ViewFullSize.class
-/ListUsers.class

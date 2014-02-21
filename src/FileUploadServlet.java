@@ -46,10 +46,7 @@ public class FileUploadServlet extends HttpServlet
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 			
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("INSERT INTO photopirate (username, filename) VALUES ('"+user+"', '" + randomString + "')");
-
-			//resp.setContentType("TEXT/HTML");
-			//resp.getOutputStream().write("Image uploaded!".getBytes());		
+			stmt.executeUpdate("INSERT INTO photopirate (username, filename) VALUES ('"+user+"', '" + randomString + "')");	
 
 			stmt.close();
 			conn.close();
@@ -58,7 +55,6 @@ public class FileUploadServlet extends HttpServlet
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	//	resp.sendRedirect("/");
 		
 		req.setAttribute("bilder", "Image Uploaded");		
 		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
