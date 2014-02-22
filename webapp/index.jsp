@@ -12,7 +12,7 @@
 <body>
 <div class='title'><a href="/"><h1>martalizer</h1></a>
 </div>
-<div class='menu'><a href="/">Home</a> | <a href="/users">List Users</a> | ${content}</div>
+<div class='menu'>${content}</div>
 <p>	
 	<div id='gallery'>
 		${bilder}

@@ -10,17 +10,13 @@
 </head>
 
 <body>
-<div><a href="/"><h1>martalizer</h1></a>
+<div class='title'><a href="/"><h1>martalizer</h1></a>
 </div>
-<div class='menu'><a href="/">Home</a> | <a href="/users">List Users</a> | ${content}</div>
+<div class='menu'>${content}</div>
 <p>
-	
-	<tr><td>
 	<div id='gallery'>
 		${bilder}
-	</div>
-	</td></tr>
-   
+	</div>	   
     <script type="text/javascript">
 	    $("#gallery").justifiedGallery({
 	    'extension':'',

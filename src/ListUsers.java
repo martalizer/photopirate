@@ -28,7 +28,7 @@ public class ListUsers extends HttpServlet {
 				bilderString += temp; 						
 			}
 
-			bilderString += "There are currently " + nbrOfUsers + " registered users <br>";
+			bilderString += "<p class='title'>There are currently " + nbrOfUsers + " registered users <br>";
 
 			rs.close();
 			stmt.close();
@@ -45,7 +45,7 @@ public class ListUsers extends HttpServlet {
 		if(req.getSession().getAttribute("user") == null) {
 			req.setAttribute("content", "<a href='/login.jsp'>Log in</a> | <a href='/register.jsp'>Register User</a>");		
 		} 
-		else req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");		
+		else req.setAttribute("content", "<a href='mypage'>Home</a> | <a href='/users'>List Users</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");		
 
 		req.getRequestDispatcher("/index.jsp").forward(req, resp);	
 
