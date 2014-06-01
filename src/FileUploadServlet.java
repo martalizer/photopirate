@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 	@Override
@@ -55,8 +56,19 @@ public class FileUploadServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		req.setAttribute("bilder", "Image Uploaded");		
-		req.setAttribute("content", "<a href='upload.html'>Upload image</a> | <a href='/deleteimagelist'>Delete image</a>");		
+		req.setAttribute("bilder", "Image Uploaded");	
+		
+		
+		
+		if (req.getSession().getAttribute("user") == null) {
+			req.setAttribute("content",
+					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
+		} else
+			req.setAttribute(
+					"content",
+					"<a href='mypage'>Home</a> | <a href='/users'>List Users</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
+
 }

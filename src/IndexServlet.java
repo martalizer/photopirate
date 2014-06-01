@@ -1,13 +1,14 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import javax.servlet.http.HttpServlet;
 
+import org.scribe.builder.*;
+import org.scribe.builder.api.*;
+import org.scribe.model.*;
+import org.scribe.oauth.*;
+
 public class IndexServlet extends HttpServlet {
-	
-	@Override
+	private static final Token EMPTY_TOKEN = null;
+    
+	@Override 
 	protected void doGet(javax.servlet.http.HttpServletRequest req,
 			javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
@@ -16,10 +17,10 @@ public class IndexServlet extends HttpServlet {
 		bilderString = ImageDAO.getImages();
 
 		req.setAttribute("bilder", bilderString);
-
+			    
 		if (req.getSession().getAttribute("user") == null) {
 			req.setAttribute("content",
-					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a>");
+					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
 		} else
 			req.setAttribute(
 					"content",
@@ -27,5 +28,4 @@ public class IndexServlet extends HttpServlet {
 
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
-
 }

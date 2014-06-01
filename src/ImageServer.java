@@ -36,15 +36,16 @@ public class ImageServer extends HttpServlet {
 		// Get the absolute path of the image
 
 		if (type.contains("thumb")) {
-			String filename = cntx.getRealPath("/bilder/thumb/" + imagename);
+			String filename = cntx.getRealPath("/bilder/thumb_" + imagename);
 			File file = new File(filename);
 
 			resp.setContentType("image/jpeg");
 			
 			if (!file.exists()) {
 					thumb.createThumbnail(
-							cntx.getRealPath("/bilder/" + imagename),
-							cntx.getRealPath("/bilder/thumb/" + imagename)); 
+							cntx.getRealPath("/bilder/" + imagename)
+							,cntx.getRealPath("/bilder/thumb_" + imagename)
+							,600); 
 			} 
 		
 			if (!file.isFile()) {				
@@ -53,6 +54,25 @@ public class ImageServer extends HttpServlet {
 			else {
 				sendFile(resp, file);
 			}			
+		} else if (type.contains("medium")) {
+			String filename = cntx.getRealPath("/bilder/medium_" + imagename);
+			File file = new File(filename);
+
+			resp.setContentType("image/jpeg");
+			
+			if (!file.exists()) {
+					thumb.createThumbnail(
+							cntx.getRealPath("/bilder/" + imagename)
+							,cntx.getRealPath("/bilder/medium_" + imagename)
+							,2000); 
+			} 
+		
+			if (!file.isFile()) {				
+				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
+			} 
+			else {
+				sendFile(resp, file);
+			}
 		} else if (type.contains("full")) {
 			String filename = cntx.getRealPath("/bilder/" + imagename);
 
@@ -69,8 +89,4 @@ public class ImageServer extends HttpServlet {
 
 		}
 	}
-
-
-
-
 }
