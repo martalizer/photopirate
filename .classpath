@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/servlet-api.jar" sourcepath="/Users/hedenberg/.m2/repository/org/apache/tomcat/tomcat-servlet-api/7.0.42/tomcat-servlet-api-7.0.42-sources.jar"/>
 	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/mysql-connector-java-5.1.26-bin.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/scribe-1.3.5.jar" sourcepath="/Users/hedenberg/.m2/repository/org/scribe/scribe/1.3.5/scribe-1.3.5-sources.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/jackson-databind-2.3.1.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/jackson-core-2.3.1.jar"/>
+	<classpathentry kind="lib" path="/opt/apache-tomcat-7.0.42/lib/jackson-annotations-2.3.1.jar"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
