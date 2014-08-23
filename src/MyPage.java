@@ -8,16 +8,15 @@ public class MyPage extends HttpServlet {
 		
 		String user = (String) req.getSession().getAttribute("user");
 		String bilderString = ImageDAO.getImages(user);
-
-		req.setAttribute("bilder", bilderString);
 		
 		if (req.getSession().getAttribute("user") == null) {
-			req.setAttribute("content",
-					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a>");
-		} else
+			resp.sendRedirect("/");
+		} else {
+			req.setAttribute("bilder", bilderString);
 			req.setAttribute(
 					"content",
 					"<a href='mypage'>Home</a> | <a href='/users'>List Users</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
-		req.getRequestDispatcher("/index2.jsp").forward(req, resp);		
+			req.getRequestDispatcher("/index2.jsp").forward(req, resp);
+		}
 	}
 }

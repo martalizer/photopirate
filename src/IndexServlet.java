@@ -19,7 +19,7 @@ public class IndexServlet extends HttpServlet {
 			    
 		if (req.getSession().getAttribute("user") == null) {
 			req.setAttribute("content",
-					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
+					"<a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
 		} else
 			req.setAttribute(
 					"content",

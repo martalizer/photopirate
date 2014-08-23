@@ -17,20 +17,17 @@ import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
-
-
 public class LoginServlet extends HttpServlet {
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String user = req.getParameter("username");
 		String password = req.getParameter("password");
-				
+
 		boolean success = false;
-		
+
 		Connection conn;
-		try		{
+		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
@@ -38,93 +35,110 @@ public class LoginServlet extends HttpServlet {
 			String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
 			ResultSet rs = stmt.executeQuery(sql);
 
-			while (rs.next())	{
+			while (rs.next()) {
 				success = true;
 			}
 
-			rs.close();			stmt.close();			conn.close();
-		} catch (Exception e)		{
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	    if(success) {
-	    	req.getSession().setAttribute("user", user);
-	    	//resp.sendRedirect("index.html");
-	    	resp.sendRedirect("mypage");
 
-	    }
-	    else {
-			String svar ="<div>fail, login incorrect, wrong password or username</div>";
+		if (success) {
+			req.getSession().setAttribute("user", user);
+			// resp.sendRedirect("index.html");
+			resp.sendRedirect("mypage");
+
+		} else {
+			String svar = "<div>fail, login incorrect, wrong password or username</div>";
 			resp.getOutputStream().print(svar);
 		}
-	}	
+	}
 	
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{ 
+	// Facebook login Stuff
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String code = req.getParameter("code");
-		
-		OAuthService service = new ServiceBuilder()
-				.provider(FacebookApi.class)
-				.apiKey("748812261795853")
-				.apiSecret("8ffd2e5855ff88f4581a1d6a7933df3f")
-				.callback("http://martalizer.se/login")
-				.build();	    		
-						
-	    //OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/");
-	    OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?fields=id,first_name,last_name");
-	    
-	    //resp.getOutputStream().print(request.toString());
-	    		
-	    		
+
+		OAuthService service = new ServiceBuilder().provider(FacebookApi.class).apiKey("748812261795853")
+				.apiSecret("8ffd2e5855ff88f4581a1d6a7933df3f").callback("http://martalizer.se/login").build();
+
+		// OAuthRequest request = new OAuthRequest(Verb.GET,
+		// "https://graph.facebook.com/");
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?fields=id,first_name,last_name");
+
+		// resp.getOutputStream().print(request.toString());
+
 		Token accessToken = service.getAccessToken(null, new Verifier(code));
-	    service.signRequest(accessToken, request);
+		service.signRequest(accessToken, request);
 
-	    Response response = request.send();
+		Response response = request.send();
 
-	    ObjectMapper map = new ObjectMapper();
+		ObjectMapper map = new ObjectMapper();
 		JsonNode node = map.readTree(response.getBody());
+		
 		String id = node.get("id").asText();
 		String firstName = node.get("first_name").asText();
 		String lastName = node.get("last_name").asText();
-	    
-	    
-	    //resp.getOutputStream().print(id + firstName + lastName);
-	    //resp.getOutputStream().print("\n"+response.getBody());
-	    
-		
-		String user = id;
+
+		// resp.getOutputStream().print(id + firstName + lastName);
+		// resp.getOutputStream().print("\n"+response.getBody());
+
+		String user = "";
 		String password = "";
-				
+
 		boolean success = false;
 		String svar = "";
 		Connection conn;
-		try		{
+		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
+			//String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
+			String sql = String.format("SELECT * FROM facebookusers WHERE facebookid = '%s'", id);
+
 			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next())	{
+			
+			if(rs.next()) {
+				//resp.getOutputStream().println(rs.getInt("id"));
 				success = true;
+			}			
+			int userID = rs.getInt("id");			
+			rs.close();
+			
+			sql = String.format("SELECT * FROM users WHERE ID = '%s'", userID);
+			rs = stmt.executeQuery(sql);			
+			if(rs.next()) {
+				user = rs.getString("username"); 
+				//resp.getOutputStream().println(user);
 			}
-
-			rs.close();			stmt.close();			conn.close();
-		} catch (Exception e)		{
-			// TODO Auto-generated catch block
+			else {
+				user = "-1";
+				success = false;
+			}
+			
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	    if(success) {
-	    	req.getSession().setAttribute("user", user);
-	    	//resp.sendRedirect("index.html");
-	    	resp.sendRedirect("mypage");
 
-	    }
-	    else {
-			svar ="<div>fail, login incorrect, wrong password or username</div>";
+		if (success) {
+			req.getSession().setAttribute("user", user);
+			// resp.sendRedirect("index.html");
+			resp.sendRedirect("mypage");
+
+		} else {
+			resp.sendRedirect("/register");
+
+			svar = "<div>fail, login incorrect, wrong password or username</div>";
+			resp.getOutputStream().println(svar);
+			resp.getOutputStream().println(id);
+			resp.getOutputStream().println(firstName);
+			resp.getOutputStream().println(lastName);
 		}
-	}	
+	}
 }
