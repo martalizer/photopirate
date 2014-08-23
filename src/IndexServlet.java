@@ -6,7 +6,6 @@ import org.scribe.model.*;
 import org.scribe.oauth.*;
 
 public class IndexServlet extends HttpServlet {
-	private static final Token EMPTY_TOKEN = null;
     
 	@Override 
 	protected void doGet(javax.servlet.http.HttpServletRequest req,

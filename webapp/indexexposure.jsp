@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<title>martalizer.se / photopirate</title>	
-	<link rel="stylesheet" href="/style.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
