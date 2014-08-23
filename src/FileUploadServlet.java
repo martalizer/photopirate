@@ -17,8 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-	{
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		if (req.getSession().getAttribute("user") == null) {
+			resp.sendRedirect("/");
+			return;
+		}
+		
 		String randomString = UUID.randomUUID().toString() + ".jpg";
 		File imageDirectory = new File("/opt/tomcat7/webapps/ROOT/bilder/");
 
@@ -31,7 +36,6 @@ public class FileUploadServlet extends HttpServlet {
 		FileOutputStream out = new FileOutputStream(filename);
 
 		byte[] buffer = new byte[1024];
-
 		int read;
 
 		while ((read = in.read(buffer)) != -1)
@@ -40,29 +44,27 @@ public class FileUploadServlet extends HttpServlet {
 		out.close();
 
 		Connection conn;
-		try
-		{
+		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-			
+
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("INSERT INTO photopirate (username, filename) VALUES ('"+user+"', '" + randomString + "')");	
+			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user,
+					randomString));
 
 			stmt.close();
 			conn.close();
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		req.setAttribute("bilder", "Image Uploaded");	
-		
-		
-		
+
+		req.setAttribute("bilder", "Image Uploaded");
+
 		if (req.getSession().getAttribute("user") == null) {
 			req.setAttribute("content",
-					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
+					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"
+							+ new Login().getLoginUrl() + "'><img src='login.png'></a>");
 		} else
 			req.setAttribute(
 					"content",

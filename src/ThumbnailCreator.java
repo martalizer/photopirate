@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 public class ThumbnailCreator {
 	
     public void createThumbnail(String inputPath, String outputPath, int longside) {
-
     	BufferedImage read = null;
 		try {
 			read = ImageIO.read(new File(inputPath));

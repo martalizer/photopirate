@@ -1,6 +1,5 @@
 import javax.servlet.http.HttpServlet;
 
-
 public class ListImagesFromUser extends HttpServlet {
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
 		String user = req.getPathInfo().substring(1);
@@ -18,5 +17,4 @@ public class ListImagesFromUser extends HttpServlet {
 	
 		req.getRequestDispatcher("/index2.jsp").forward(req, resp);		
 	}
-
 }

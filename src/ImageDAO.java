@@ -3,19 +3,19 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-
 public class ImageDAO {
-	
-	public static String getImages() {		
+
+	public static String getImages() {
 		return performQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 1000");
 	}
-	
+
 	public static String getImages(String user) {
-		return performQuery("SELECT id, username, filename FROM photopirate where username='"+user+"' Order by id DESC LIMIT 1000");
+		return performQuery("SELECT id, username, filename FROM photopirate where username='" + user
+				+ "' Order by id DESC LIMIT 1000");
 	}
 
 	private static String performQuery(String sql) {
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
@@ -32,7 +32,9 @@ public class ImageDAO {
 						username, filnamn);
 				bilderString += image;
 			}
-			rs.close(); stmt.close(); conn.close();
+			rs.close();
+			stmt.close();
+			conn.close();
 			return bilderString;
 
 		} catch (Exception e) {
