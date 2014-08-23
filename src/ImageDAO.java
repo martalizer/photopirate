@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class ImageDAO {
 	
 	public static String getImages() {		
-		return performQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 15");
+		return performQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 1000");
 	}
 	
 	public static String getImages(String user) {

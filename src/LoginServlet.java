@@ -18,105 +18,58 @@ import org.scribe.model.*;
 import org.scribe.oauth.*;
 
 public class LoginServlet extends HttpServlet {
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String user = req.getParameter("username");
-		String password = req.getParameter("password");
-
-		boolean success = false;
-
-		Connection conn;
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-
-			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				success = true;
-			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (success) {
-			req.getSession().setAttribute("user", user);
-			// resp.sendRedirect("index.html");
-			resp.sendRedirect("mypage");
-
-		} else {
-			String svar = "<div>fail, login incorrect, wrong password or username</div>";
-			resp.getOutputStream().print(svar);
-		}
-	}
 	
-	// Facebook login Stuff
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String code = req.getParameter("code");
-
-		OAuthService service = new ServiceBuilder().provider(FacebookApi.class).apiKey("748812261795853")
-				.apiSecret("8ffd2e5855ff88f4581a1d6a7933df3f").callback("http://martalizer.se/login").build();
-
-		// OAuthRequest request = new OAuthRequest(Verb.GET,
-		// "https://graph.facebook.com/");
-		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?fields=id,first_name,last_name");
-
-		// resp.getOutputStream().print(request.toString());
-
-		Token accessToken = service.getAccessToken(null, new Verifier(code));
-		service.signRequest(accessToken, request);
-
-		Response response = request.send();
-
-		ObjectMapper map = new ObjectMapper();
-		JsonNode node = map.readTree(response.getBody());
-		
-		String id = node.get("id").asText();
+		JsonNode node = facebookMagic(req);
+				
+		String facebookId = node.get("id").asText();
 		String firstName = node.get("first_name").asText();
 		String lastName = node.get("last_name").asText();
 
-		// resp.getOutputStream().print(id + firstName + lastName);
-		// resp.getOutputStream().print("\n"+response.getBody());
-
-		String user = "";
-		String password = "";
-
+		String userName = "";
 		boolean success = false;
-		String svar = "";
 		Connection conn;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-
 			Statement stmt = conn.createStatement();
-			//String sql = "SELECT * FROM users WHERE password = '" + password + "' AND username = '" + user + "'";
-			String sql = String.format("SELECT * FROM facebookusers WHERE facebookid = '%s'", id);
-
+			String sql = String.format("SELECT * FROM facebookusers WHERE facebookid = '%s'", facebookId);
 			ResultSet rs = stmt.executeQuery(sql);
-			
+	
+			int userID = 0;
 			if(rs.next()) {
-				//resp.getOutputStream().println(rs.getInt("id"));
 				success = true;
-			}			
-			int userID = rs.getInt("id");			
+				userID = rs.getInt(1);
+				rs.close();
+			}	
+			else {
+				stmt = conn.createStatement();
+				sql = String.format("INSERT INTO facebookusers (facebookid) VALUES ('%s')", facebookId);
+				stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+							
+				ResultSet generatedKeys = stmt.getGeneratedKeys();
+				
+				if(generatedKeys.next()) {
+					stmt = conn.createStatement();
+					userID = generatedKeys.getInt(1);
+					sql = String.format("INSERT INTO users (id, username, firstname, lastname) VALUES ('%s', '%s', '%s', '%s')", userID, (firstName+lastName), firstName, lastName);
+					stmt.executeUpdate(sql);
+					success = true;
+				}								
+			}
+						
+			System.out.println("userID = " + userID);
+			
 			rs.close();
 			
 			sql = String.format("SELECT * FROM users WHERE ID = '%s'", userID);
-			rs = stmt.executeQuery(sql);			
+			rs = stmt.executeQuery(sql);	
+			
 			if(rs.next()) {
-				user = rs.getString("username"); 
-				//resp.getOutputStream().println(user);
+				userName = rs.getString("username"); 
 			}
 			else {
-				user = "-1";
+				userName = "-1";
 				success = false;
 			}
 			
@@ -127,18 +80,29 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		if (success) {
-			req.getSession().setAttribute("user", user);
-			// resp.sendRedirect("index.html");
+			req.getSession().setAttribute("user", userName);
 			resp.sendRedirect("mypage");
 
 		} else {
-			resp.sendRedirect("/register");
-
-			svar = "<div>fail, login incorrect, wrong password or username</div>";
-			resp.getOutputStream().println(svar);
-			resp.getOutputStream().println(id);
-			resp.getOutputStream().println(firstName);
-			resp.getOutputStream().println(lastName);
+			resp.sendRedirect("/");
 		}
+	}
+
+	private JsonNode facebookMagic(HttpServletRequest req) throws IOException, JsonProcessingException {
+		String code = req.getParameter("code");
+
+		OAuthService service = new ServiceBuilder().provider(FacebookApi.class).apiKey("748812261795853")
+				.apiSecret("8ffd2e5855ff88f4581a1d6a7933df3f").callback("http://martalizer.se/login").build();
+
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?fields=id,first_name,last_name");
+
+		Token accessToken = service.getAccessToken(null, new Verifier(code));
+		service.signRequest(accessToken, request);
+
+		Response response = request.send();
+
+		ObjectMapper map = new ObjectMapper();
+		JsonNode node = map.readTree(response.getBody());
+		return node;
 	}
 }

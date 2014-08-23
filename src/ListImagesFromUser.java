@@ -14,7 +14,7 @@ public class ListImagesFromUser extends HttpServlet {
 		} else
 			req.setAttribute(
 					"content",
-					"<a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+					"<a href='/upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
 	
 		req.getRequestDispatcher("/index2.jsp").forward(req, resp);		
 	}

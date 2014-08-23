@@ -29,14 +29,11 @@ public class DeleteImage extends HttpServlet {
 
 			while (rs.next()) {
 				String filnamn = rs.getString("filename");
-
-				String id = rs.getString("id");
-
-				String image = "<a href='deletethisimage?id=" + id + "'>\r\t\t\t<img src='/image?file=" + filnamn
-						+ "&type=thumb'></a>";
-
+				String id = rs.getString("id");				
+				
+				String image = "\r\t\t\t<a href=/image?file="+ filnamn +"&type=medium rel='bild'><img src='/image?file=" + filnamn
+						+ "&type=thumb'></a><a class= 'deletebutton' href='deletethisimage?id=" + id + "'>Delete Image</a>";
 				String imageelement = "\n\r\t\t\n\r\t\t\t" + image + " \n\r\t\t<p>";
-
 				bilderString += imageelement;
 			}
 

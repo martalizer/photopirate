@@ -13,33 +13,25 @@ public class LoginFilter implements Filter
 {
 
 	@Override
-	public void destroy()
-	{
+	public void destroy() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException
-	{
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		String contextPath = httpRequest.getContextPath();
 		if (httpRequest.getSession().getAttribute("user") != null)
-		{
 			filterChain.doFilter(request, response);
-		} else
-		{
-			httpResponse.sendRedirect(contextPath + "/login.jsp");
-		}
+		else
+			httpResponse.sendRedirect(contextPath + "/login.jsp");	
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException
-	{
+	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-
 	}
 
 }

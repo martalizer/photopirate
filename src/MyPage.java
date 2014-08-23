@@ -15,7 +15,7 @@ public class MyPage extends HttpServlet {
 			req.setAttribute("bilder", bilderString);
 			req.setAttribute(
 					"content",
-					"<a href='mypage'>Home</a> | <a href='/users'>List Users</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+					"<a href='mypage'>Home</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
 			req.getRequestDispatcher("/index2.jsp").forward(req, resp);
 		}
 	}

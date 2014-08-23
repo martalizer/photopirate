@@ -21,12 +21,6 @@
 	</servlet>
 	
 	<servlet>
-		<display-name>Facebook Registration Servlet</display-name>
-		<servlet-name>RegisterFacebook</servlet-name>
-		<servlet-class>RegisterFacebook</servlet-class>
-	</servlet>
-	
-	<servlet>
 		<display-name>MyPage Servlet</display-name>
 		<servlet-name>MyPageServlet</servlet-name>
 		<servlet-class>MyPage</servlet-class>
@@ -49,11 +43,6 @@
 		<servlet-name>RemoveFromDatabase</servlet-name>
 		<servlet-class>RemoveFromDatabase</servlet-class>
 	</servlet>	
-	<servlet>
-		<display-name>Register User Servlet</display-name>
-		<servlet-name>RegisterServlet</servlet-name>
-		<servlet-class>RegisterServlet</servlet-class>
-	</servlet>
 	
 	<servlet>
 		<display-name>Index View Servlet</display-name>
@@ -112,19 +101,9 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>RegisterServlet</servlet-name>
-		<url-pattern>/register</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
 		<servlet-name>ViewFullSize</servlet-name>
 		<url-pattern>/view</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>RegisterFacebook</servlet-name>
-		<url-pattern>/facebookreg</url-pattern>
-	</servlet-mapping>	
 	
 	<servlet-mapping>
 		<servlet-name>ImageServer</servlet-name>
