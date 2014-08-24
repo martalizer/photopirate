@@ -23,7 +23,7 @@ public class DeleteImage extends HttpServlet {
 			Statement stmt = conn.createStatement();
 
 			String sql = "SELECT id, username, filename FROM photopirate where username='" + user
-					+ "' Order by id DESC";
+					+ "' Order by id DESC"; 
 
 			ResultSet rs = stmt.executeQuery(sql);
 

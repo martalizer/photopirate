@@ -18,10 +18,10 @@ import org.scribe.model.*;
 import org.scribe.oauth.*;
 
 public class LoginServlet extends HttpServlet {
-	
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		JsonNode node = facebookMagic(req);
-				
+
 		String facebookId = node.get("id").asText();
 		String firstName = node.get("first_name").asText();
 		String lastName = node.get("last_name").asText();
@@ -35,44 +35,44 @@ public class LoginServlet extends HttpServlet {
 			Statement stmt = conn.createStatement();
 			String sql = String.format("SELECT * FROM facebookusers WHERE facebookid = '%s'", facebookId);
 			ResultSet rs = stmt.executeQuery(sql);
-	
+
 			int userID = 0;
-			if(rs.next()) {
+			if (rs.next()) {
 				success = true;
 				userID = rs.getInt(1);
 				rs.close();
-			}	
-			else {
+			} else {
 				stmt = conn.createStatement();
 				sql = String.format("INSERT INTO facebookusers (facebookid) VALUES ('%s')", facebookId);
 				stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-							
+
 				ResultSet generatedKeys = stmt.getGeneratedKeys();
-				
-				if(generatedKeys.next()) {
+
+				if (generatedKeys.next()) {
 					stmt = conn.createStatement();
 					userID = generatedKeys.getInt(1);
-					sql = String.format("INSERT INTO users (id, username, firstname, lastname) VALUES ('%s', '%s', '%s', '%s')", userID, (firstName+lastName), firstName, lastName);
+					sql = String.format(
+							"INSERT INTO users (id, username, firstname, lastname) VALUES ('%s', '%s', '%s', '%s')",
+							userID, (firstName + lastName), firstName, lastName);
 					stmt.executeUpdate(sql);
 					success = true;
-				}								
+				}
 			}
-						
+
 			System.out.println("userID = " + userID);
-			
+
 			rs.close();
-			
+
 			sql = String.format("SELECT * FROM users WHERE ID = '%s'", userID);
-			rs = stmt.executeQuery(sql);	
-			
-			if(rs.next()) {
-				userName = rs.getString("username"); 
-			}
-			else {
+			rs = stmt.executeQuery(sql);
+
+			if (rs.next()) {
+				userName = rs.getString("username");
+			} else {
 				userName = "-1";
 				success = false;
 			}
-			
+
 			stmt.close();
 			conn.close();
 		} catch (Exception e) {
@@ -94,7 +94,8 @@ public class LoginServlet extends HttpServlet {
 		OAuthService service = new ServiceBuilder().provider(FacebookApi.class).apiKey("748812261795853")
 				.apiSecret("8ffd2e5855ff88f4581a1d6a7933df3f").callback("http://martalizer.se/login").build();
 
-		OAuthRequest request = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me?fields=id,first_name,last_name");
+		OAuthRequest request = new OAuthRequest(Verb.GET,
+				"https://graph.facebook.com/me?fields=id,first_name,last_name");
 
 		Token accessToken = service.getAccessToken(null, new Verifier(code));
 		service.signRequest(accessToken, request);
