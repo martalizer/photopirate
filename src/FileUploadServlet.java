@@ -47,29 +47,16 @@ public class FileUploadServlet extends HttpServlet {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user,
-					randomString));
-
-			stmt.close();
-			conn.close();
+			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user, randomString));
+			stmt.close();conn.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		req.setAttribute("bilder", "Image Uploaded");
-
-		if (req.getSession().getAttribute("user") == null) {
-			req.setAttribute("content",
-					"<a href='/login.jsp'>Login</a> | <a href='/register.jsp'>Register User</a><p><a href='"
-							+ new Login().getLoginUrl() + "'><img src='login.png'></a>");
-		} else
-			req.setAttribute(
-					"content",
-					"<a href='mypage'>Home</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
-
+		req.setAttribute("bilder", ImageDAO.getImages(user));
+		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));		
+		req.setAttribute("content", menuManager.getUserLoggedInMenu());					
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
 

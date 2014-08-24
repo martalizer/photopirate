@@ -6,15 +6,20 @@ import java.sql.Statement;
 public class ImageDAO {
 
 	public static String getImages() {
-		return performQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 1000");
+		return performGetImagesQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 1000");
 	}
 
+	public static String getImagesRandom(String user) {
+		return performGetImagesQuery("SELECT id, username, filename FROM photopirate where username='" + user
+				+ "' ORDER BY RAND() LIMIT 1000");
+	}
+	
 	public static String getImages(String user) {
-		return performQuery("SELECT id, username, filename FROM photopirate where username='" + user
+		return performGetImagesQuery("SELECT id, username, filename FROM photopirate where username='" + user
 				+ "' Order by id DESC LIMIT 1000");
 	}
 
-	private static String performQuery(String sql) {
+	private static String performGetImagesQuery(String sql) {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -32,9 +37,7 @@ public class ImageDAO {
 						username, filnamn);
 				bilderString += image;
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+			rs.close();		stmt.close();	conn.close();
 			return bilderString;
 
 		} catch (Exception e) {

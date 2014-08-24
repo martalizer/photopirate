@@ -6,24 +6,20 @@ import org.scribe.model.*;
 import org.scribe.oauth.*;
 
 public class IndexServlet extends HttpServlet {
-    
-	@Override 
-	protected void doGet(javax.servlet.http.HttpServletRequest req,
-			javax.servlet.http.HttpServletResponse resp)
+
+	@Override
+	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
 		String bilderString = "";
 
 		bilderString = ImageDAO.getImages();
 
 		req.setAttribute("bilder", bilderString);
-			    
+
 		if (req.getSession().getAttribute("user") == null) {
-			req.setAttribute("content",
-					"<a href='"+new Login().getLoginUrl()+"'><img src='login.png'></a>");
+			req.setAttribute("content", menuManager.getNoUserMenu());
 		} else
-			req.setAttribute(
-					"content",
-					"<a href='mypage'>Home</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+			req.setAttribute("content", menuManager.getUserLoggedInMenu());
 
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}

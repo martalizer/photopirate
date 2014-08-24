@@ -12,7 +12,6 @@ public class ThumbnailCreator {
 		try {
 			read = ImageIO.read(new File(inputPath));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         

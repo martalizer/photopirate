@@ -11,8 +11,7 @@ public class DeleteImage extends HttpServlet {
 	@Override
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
-		String bilderString = "";
-		
+		String bilderString = "";		
 		String user = (String) req.getSession().getAttribute("user");
 
 		Connection conn;
@@ -23,7 +22,7 @@ public class DeleteImage extends HttpServlet {
 			Statement stmt = conn.createStatement();
 
 			String sql = "SELECT id, username, filename FROM photopirate where username='" + user
-					+ "' Order by id DESC";
+					+ "' Order by id DESC"; 
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -37,9 +36,7 @@ public class DeleteImage extends HttpServlet {
 				bilderString += imageelement;
 			}
 
-			rs.close();
-			stmt.close();
-			conn.close();
+			rs.close(); stmt.close(); conn.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,9 +47,7 @@ public class DeleteImage extends HttpServlet {
 			resp.sendRedirect("/");
 		} 
 		else {
-			req.setAttribute(
-					"content",
-					"<a href='mypage'>Home</a> | <a href='/users'>List Users</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+			req.setAttribute("content",	menuManager.getUserLoggedInMenu());
 			req.getRequestDispatcher("delete.jsp").forward(req, resp);
 		}
 	}	

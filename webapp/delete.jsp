@@ -5,6 +5,18 @@
 </head>
 
 <body>
+
+<script type="text/javascript">
+function openFileOption()
+{
+	document.getElementById("file1").click();
+}
+</script>
+
+<form id="apa" action="/upload_file" method='post' enctype='multipart/form-data'>
+	<input onchange="this.form.submit()" type="file" name='file' id="file1" style="display:none">
+</form>
+
 <div class='title'><a href="/"><h1>photopoop</h1></a></div>
 <div class='menu'>${content}</div>
 <p>
