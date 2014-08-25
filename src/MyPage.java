@@ -9,7 +9,11 @@ public class MyPage extends HttpServlet {
 		String user = (String) req.getSession().getAttribute("user");
 		String bilderString = ImageDAO.getImages(user);
 
+<<<<<<< HEAD
 		if (user == null) {
+=======
+		if (req.getSession().getAttribute("user") == null) {
+>>>>>>> ea7d31d5ce7168634460e6de39ab21d7b0c5c6fd
 			resp.sendRedirect("/");
 			return;
 		} else {
@@ -17,7 +21,13 @@ public class MyPage extends HttpServlet {
 					
 			req.setAttribute("pageinfo2", menuManager.message(message));	
 			req.setAttribute("bilder", bilderString);
+<<<<<<< HEAD
 			req.setAttribute("content", menuManager.getUserLoggedInMenu());
+=======
+			req.setAttribute(
+					"content",
+					"<a href='mypage'>Home</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
+>>>>>>> ea7d31d5ce7168634460e6de39ab21d7b0c5c6fd
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
 	}
