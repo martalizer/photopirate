@@ -13,14 +13,12 @@ public class MyPage extends HttpServlet {
 			return;
 		} else {
 			String bilderString = ImageDAO.getImages(user);
-			String message = String.format("<h2><a href='http://martalizer.se/user/%s'>martalizer.se/user/%s</a></h2>", user, user);
+			String message = String.format("<h2><a href='http://martalizer.se/user/%s'>martalizer.se/user/%s</a></h2>",
+					user, user);
 
-			req.setAttribute("pageinfo2", menuManager.message(message));	
+			req.setAttribute("pageinfo2", menuManager.message(message));
 			req.setAttribute("bilder", bilderString);
 			req.setAttribute("content", menuManager.getUserLoggedInMenu());
-			req.setAttribute(
-					"content",
-					"<a href='mypage'>Home</a> | <a href='upload.html'>Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>");
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
 	}

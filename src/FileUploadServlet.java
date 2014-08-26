@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 public class FileUploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		if (req.getSession().getAttribute("user") == null) {
 			resp.sendRedirect("/");
 			return;
 		}
-		
+
 		String randomString = UUID.randomUUID().toString() + ".jpg";
 		File imageDirectory = new File("/opt/tomcat7/webapps/ROOT/bilder/");
 
@@ -48,15 +48,17 @@ public class FileUploadServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user, randomString));
-			stmt.close();conn.close();
+			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user,
+					randomString));
+			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		req.setAttribute("bilder", ImageDAO.getImages(user));
-		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));		
-		req.setAttribute("content", menuManager.getUserLoggedInMenu());					
+		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));
+		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
 

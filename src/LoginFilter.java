@@ -9,8 +9,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginFilter implements Filter
-{
+public class LoginFilter implements Filter {
 
 	@Override
 	public void destroy() {
@@ -18,7 +17,8 @@ public class LoginFilter implements Filter
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException,
+			ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -26,7 +26,7 @@ public class LoginFilter implements Filter
 		if (httpRequest.getSession().getAttribute("user") != null)
 			filterChain.doFilter(request, response);
 		else
-			httpResponse.sendRedirect(contextPath + "/");	
+			httpResponse.sendRedirect(contextPath + "/");
 	}
 
 	@Override

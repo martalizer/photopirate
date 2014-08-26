@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ImageServer extends HttpServlet {
 	ThumbnailCreator thumb = new ThumbnailCreator();
-	
-	private void sendFile(HttpServletResponse resp, File file)
-			throws IOException {
+
+	private void sendFile(HttpServletResponse resp, File file) throws IOException {
 		resp.setContentLength((int) file.length());
 		FileInputStream in = new FileInputStream(file);
 		OutputStream out = resp.getOutputStream();
@@ -21,12 +20,12 @@ public class ImageServer extends HttpServlet {
 		while ((count = in.read(buf)) >= 0) {
 			out.write(buf, 0, count);
 		}
-		out.close();	in.close();
+		out.close();
+		in.close();
 	}
-	
+
 	@Override
-	protected void doGet(javax.servlet.http.HttpServletRequest req,
-			javax.servlet.http.HttpServletResponse resp)
+	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
 
 		String imagename = req.getParameter("file");
@@ -40,37 +39,31 @@ public class ImageServer extends HttpServlet {
 			File file = new File(filename);
 
 			resp.setContentType("image/jpeg");
-			
+
 			if (!file.exists()) {
-					thumb.createThumbnail(
-							cntx.getRealPath("/bilder/" + imagename)
-							,cntx.getRealPath("/bilder/thumb_" + imagename)
-							,600); 
-			} 
-		
-			if (!file.isFile()) {				
+				thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename),
+						cntx.getRealPath("/bilder/thumb_" + imagename), 600);
+			}
+
+			if (!file.isFile()) {
 				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-			} 
-			else {
+			} else {
 				sendFile(resp, file);
-			}			
+			}
 		} else if (type.contains("medium")) {
 			String filename = cntx.getRealPath("/bilder/medium_" + imagename);
 			File file = new File(filename);
 
 			resp.setContentType("image/jpeg");
-			
+
 			if (!file.exists()) {
-					thumb.createThumbnail(
-							cntx.getRealPath("/bilder/" + imagename)
-							,cntx.getRealPath("/bilder/medium_" + imagename)
-							,2000); 
-			} 
-		
-			if (!file.isFile()) {				
+				thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename),
+						cntx.getRealPath("/bilder/medium_" + imagename), 2000);
+			}
+
+			if (!file.isFile()) {
 				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-			} 
-			else {
+			} else {
 				sendFile(resp, file);
 			}
 		} else if (type.contains("full")) {
@@ -80,7 +73,7 @@ public class ImageServer extends HttpServlet {
 
 			if (!file.isFile()) {
 				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-			
+
 			} else {
 				sendFile(resp, file);
 			}

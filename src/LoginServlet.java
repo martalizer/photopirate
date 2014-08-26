@@ -82,9 +82,10 @@ public class LoginServlet extends HttpServlet {
 		if (success) {
 			req.getSession().setAttribute("user", userName);
 			resp.sendRedirect("mypage");
-
+			return;
 		} else {
 			resp.sendRedirect("/");
+			return;
 		}
 	}
 
