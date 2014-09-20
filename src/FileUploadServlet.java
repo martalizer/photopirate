@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,32 +24,19 @@ public class FileUploadServlet extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-
-		String randomString = UUID.randomUUID().toString() + ".jpg";
-		File imageDirectory = new File("/opt/tomcat7/webapps/ROOT/bilder/");
-
-		if (!imageDirectory.exists())
-			imageDirectory.mkdir();
-		File filename = new File(imageDirectory, randomString);
-		String user = (String) req.getSession().getAttribute("user");
-
-		InputStream in = req.getPart("file").getInputStream();
-		FileOutputStream out = new FileOutputStream(filename);
-
-		byte[] buffer = new byte[1024];
-		int read;
-
-		while ((read = in.read(buffer)) != -1)
-			out.write(buffer, 0, read);
-
-		out.close();
 		
-		ImageDAO.addImage(user, randomString);
+		String user = (String) req.getSession().getAttribute("user");
+		InputStream in = req.getPart("file").getInputStream();
+		
+		//Save image to Disk
+		String generatedFileName = FileIO.saveImage(in);
+		
+		//Save image user and filename to database
+		ImageDAO.addImage(user, generatedFileName);
 
 		req.setAttribute("bilder", ImageDAO.getImages(user));
 		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));
 		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
-
 }

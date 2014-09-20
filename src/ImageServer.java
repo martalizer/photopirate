@@ -11,75 +11,37 @@ import javax.servlet.http.HttpServletResponse;
 public class ImageServer extends HttpServlet {
 	ThumbnailCreator thumb = new ThumbnailCreator();
 
-	private void sendFile(HttpServletResponse resp, File file) throws IOException {
-		resp.setContentLength((int) file.length());
-		FileInputStream in = new FileInputStream(file);
-		OutputStream out = resp.getOutputStream();
-		byte[] buf = new byte[1024];
-		int count = 0;
-		while ((count = in.read(buf)) >= 0) {
-			out.write(buf, 0, count);
-		}
-		out.close();
-		in.close();
-	}
-
 	@Override
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
 
 		String imagename = req.getParameter("file");
 		String type = req.getParameter("type");
-
-		ServletContext cntx = getServletContext();
-		// Get the absolute path of the image
-
+		ServletContext cntx = getServletContext();		
+		resp.setContentType("image/jpeg");		
+		
 		if (type.contains("thumb")) {
-			String filename = cntx.getRealPath("/bilder/thumb_" + imagename);
-			File file = new File(filename);
-
-			resp.setContentType("image/jpeg");
-
-			if (!file.exists()) {
-				thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename),
-						cntx.getRealPath("/bilder/thumb_" + imagename), 600);
-			}
-
-			if (!file.isFile()) {
-				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-			} else {
-				sendFile(resp, file);
-			}
+			GetImage("/bilder/thumb_", imagename, cntx, resp, 600);
 		} else if (type.contains("medium")) {
-			String filename = cntx.getRealPath("/bilder/medium_" + imagename);
-			File file = new File(filename);
-
-			resp.setContentType("image/jpeg");
-
-			if (!file.exists()) {
-				thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename),
-						cntx.getRealPath("/bilder/medium_" + imagename), 2000);
-			}
-
-			if (!file.isFile()) {
-				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-			} else {
-				sendFile(resp, file);
-			}
+			GetImage("/bilder/medium_", imagename, cntx, resp, 2000);
 		} else if (type.contains("full")) {
-			String filename = cntx.getRealPath("/bilder/" + imagename);
-
-			File file = new File(filename);
-
-			if (!file.isFile()) {
-				sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
-
-			} else {
-				sendFile(resp, file);
-			}
+			GetImage("/bilder/", imagename, cntx, resp, 0);
 		} else {
-			sendFile(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
+			FileIO.getImage(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
+		}
+	}
 
+	private void GetImage(String path, String imagename, ServletContext cntx, HttpServletResponse resp, int width) throws IOException {		
+		String filename = cntx.getRealPath(path + imagename);
+		File file = new File(filename);
+
+		if (!file.exists())
+			thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename), filename, width);
+		
+		if (!file.isFile()) {
+			FileIO.getImage(resp, new File(cntx.getRealPath("/bilder/fail.jpg"))); 
+		} else { 
+			FileIO.getImage(resp, file);
 		}
 	}
 }
