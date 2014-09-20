@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>martalizer.se / photopoop</title>	
+	<title>martalizer.se</title>	
 	<link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 

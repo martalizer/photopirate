@@ -42,19 +42,8 @@ public class FileUploadServlet extends HttpServlet {
 			out.write(buffer, 0, read);
 
 		out.close();
-
-		Connection conn;
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user,
-					randomString));
-			stmt.close();
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		ImageDAO.addImage(user, randomString);
 
 		req.setAttribute("bilder", ImageDAO.getImages(user));
 		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));

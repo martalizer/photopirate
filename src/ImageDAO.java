@@ -5,6 +5,21 @@ import java.sql.Statement;
 
 public class ImageDAO {
 
+	public static void addImage(String user, String randomString) {
+		Connection conn;
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String.format("INSERT INTO photopirate (username, filename) VALUES ('%s', '%s')", user,
+					randomString));
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
 	public static String getImages() {
 		return performGetImagesQuery("SELECT id, username, filename FROM photopirate ORDER BY RAND() LIMIT 1000");
 	}
@@ -42,8 +57,7 @@ public class ImageDAO {
 						"<a class= 'deletebutton' href='deletethisimage?id=%s'>Delete Image</a></p>", filnamn, filnamn, id);
 				
 				bilderString += image;
-			}
-			
+			}			
 			
 			rs.close();
 			stmt.close();
@@ -83,5 +97,4 @@ public class ImageDAO {
 		}
 		return "fail";
 	}
-
 }
