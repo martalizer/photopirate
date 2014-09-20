@@ -30,8 +30,7 @@ public class FileIO {
 
 		out.close();
 		return generatedFileName;
-	}
-	
+	}	
 	
 	public static void getImage(HttpServletResponse resp, File file) throws IOException {
 		resp.setContentLength((int) file.length());
