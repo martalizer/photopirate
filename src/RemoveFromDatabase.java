@@ -26,11 +26,10 @@ public class RemoveFromDatabase extends HttpServlet {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
 
 			Statement stmt = conn.createStatement();
-			String sql = "DELETE FROM photopirate WHERE id=" + ImageId;
+			String sql = "UPDATE photopirate SET inactive = 1 WHERE id=" + ImageId;
 			stmt.executeUpdate(sql);
 
 			messageString = "Image with ID=" + ImageId + " was removed from database";
-
 			stmt.close();
 			conn.close();
 		} catch (Exception e) {
@@ -39,10 +38,7 @@ public class RemoveFromDatabase extends HttpServlet {
 			
 		List<Image> images = ImageDAO.getImagesFromUser(req.getSession().getAttribute("user").toString());
 		req.setAttribute("bilder", images);	
-
-		req.setAttribute("message", messageString);
-		
-		
+		req.setAttribute("message", messageString);	
 		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);
 	}

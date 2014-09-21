@@ -8,8 +8,7 @@ public class ListImagesFromUser extends HttpServlet {
 		String userFromURL = req.getPathInfo().substring(1);
 		
 		List<Image> images = ImageDAO.getImagesRandomFromUser(userFromURL);
-		req.setAttribute("bilder", images);		
-		
+		req.setAttribute("bilder", images);			
 		
 		String currentUserFromSession = (String) req.getSession().getAttribute("user");
 
