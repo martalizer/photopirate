@@ -35,7 +35,7 @@
 	<div class='menu'>${content}</div>
 	<p>
 	<div id='gallery'>
-
+	<p>${message}</p>
 		<c:forEach items="${bilder}" var="bild">
 
 			<a title='${bild.username}' href=/image?file=${bild.filename}&type=medium rel='bild'> 

@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javax.servlet.http.HttpServlet;
 
 @SuppressWarnings("serial")
@@ -12,7 +14,8 @@ public class DeleteImage extends HttpServlet {
 			return;
 		}
 		
-		req.setAttribute("bilder", ImageDAO.getImagesForDelete((String)req.getSession().getAttribute("user")));		
+		List<Image> images = ImageDAO.getImagesFromUser(req.getSession().getAttribute("user").toString());
+		req.setAttribute("bilder", images);		
 		
 		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);

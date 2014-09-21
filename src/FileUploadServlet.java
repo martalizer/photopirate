@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -32,9 +33,15 @@ public class FileUploadServlet extends HttpServlet {
 		String generatedFileName = FileIO.saveImage(in);
 		
 		//Save image user and filename to database
-		ImageDAO.addImage(user, generatedFileName);
-
-		req.setAttribute("bilder", ImageDAO.getImages(user));
+		
+		ImageDAO.addImage(new Image(user, generatedFileName));
+		
+	//	req.setAttribute("bilder", ImageDAO.getImages(user));
+		
+		List<Image> images = ImageDAO.getImagesFromUser(user);
+		req.setAttribute("bilder", images);		
+		
+		
 		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));
 		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("index.jsp").forward(req, resp);

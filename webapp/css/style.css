@@ -3,6 +3,10 @@
 	A:Active { font-size : 14px; color : #FFFFFF; font-family : Verdana, Arial, Helvetica, sans-serif; text-decoration : none; }
 	A:Hover { font-size : 14px; color : #FFFFFF;	font-family : Verdana, Arial, Helvetica, sans-serif; text-decoration : none; }
 
+span{
+	position: relative;
+}
+
 .preview {
 	height: 250px;
 }
@@ -73,9 +77,9 @@ div {
 	color: #FFFFFF;
 }
 .deletebutton {
-	position: relative;
-	left: -115px;
-	top: -15px;
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
 	background-color: rgb(201, 0, 0);
 	border: 1px black solid;
 	color: white;

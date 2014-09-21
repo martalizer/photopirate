@@ -26,11 +26,12 @@ function openFileOption()
 	
 	<tr><td>
 	<div id='gallery'>
+	${message}
 	
 		<c:forEach items="${bilder}" var="bild">
 
-			<p><a href=/image?file=${bild.filename}&type=medium rel='bild'><img src='/image?file=${bild.filename}&type=thumb'></a> 
-						<a class= 'deletebutton' href='deletethisimage?id=${bild.id}'>Delete Image</a></p>
+			<p><span><a href=/image?file=${bild.filename}&type=medium rel='bild'><img src='/image?file=${bild.filename}&type=thumb'></a> 
+						<a class= 'deletebutton' href='deletethisimage?id=${bild.id}'>Delete Image with ID ${bild.id}</a></p></span>
 
 		</c:forEach>
 		

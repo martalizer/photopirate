@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 
@@ -15,7 +16,7 @@ public class RemoveFromDatabase extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		}
-
+		
 		String messageString = "";
 		Integer ImageId = Integer.parseInt(req.getParameter("id"));
 
@@ -28,47 +29,20 @@ public class RemoveFromDatabase extends HttpServlet {
 			String sql = "DELETE FROM photopirate WHERE id=" + ImageId;
 			stmt.executeUpdate(sql);
 
-			messageString = "<p>Image with ID=" + ImageId + " was removed from database</p>";
+			messageString = "Image with ID=" + ImageId + " was removed from database";
 
 			stmt.close();
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			
+		List<Image> images = ImageDAO.getImagesFromUser(req.getSession().getAttribute("user").toString());
+		req.setAttribute("bilder", images);	
 
-		String bilderString = "";
-		String user = (String) req.getSession().getAttribute("user");
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/jdbcexample", "mart", "mart");
-
-			Statement stmt = conn.createStatement();
-
-			String sql = "SELECT id, username, filename FROM photopirate where username='" + user
-					+ "' Order by id DESC";
-
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				String filnamn = rs.getString("filename");
-				String id = rs.getString("id");
-
-				String image = "\r\t\t\t<a href=/image?file=" + filnamn
-						+ "&type=medium rel='bild'><img src='/image?file=" + filnamn
-						+ "&type=thumb'></a><a class= 'deletebutton' href='deletethisimage?id=" + id
-						+ "'>Delete Image</a>";
-				String imageelement = "\n\r\t\t\n\r\t\t\t" + image + " \n\r\t\t<p>";
-				bilderString += imageelement;
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		req.setAttribute("bilder", messageString + bilderString);
+		req.setAttribute("message", messageString);
+		
+		
 		req.setAttribute("content", menuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);
 	}
