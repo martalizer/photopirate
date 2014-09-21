@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javax.servlet.http.HttpServlet;
 
 import org.scribe.builder.ServiceBuilder;
@@ -12,12 +14,12 @@ public class MyPage extends HttpServlet {
 			resp.sendRedirect("/");
 			return;
 		} else {
-			String bilderString = ImageDAO.getImages(user);
+			List<Image> images = ImageDAO.getImagesFromUser(user);
+			req.setAttribute("bilder", images);				
+			
 			String message = String.format("<h2><a href='http://martalizer.se/user/%s'>martalizer.se/user/%s</a></h2>",
 					user, user);
-
 			req.setAttribute("pageinfo2", menuManager.message(message));
-			req.setAttribute("bilder", bilderString);
 			req.setAttribute("content", menuManager.getUserLoggedInMenu());
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
