@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class RemoveFromDatabase extends HttpServlet {
 		List<Image> images = ImageDAO.getImagesFromUser(req.getSession().getAttribute("user").toString());
 		req.setAttribute("bilder", images);	
 		req.setAttribute("message", messageString);	
-		req.setAttribute("content", menuManager.getUserLoggedInMenu());
+		req.setAttribute("content", MenuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);
 	}
 }

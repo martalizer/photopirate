@@ -1,4 +1,4 @@
-public class menuManager {
+public class MenuManager {
 	public static String getUserLoggedInMenu() {
 		String menu = "<a href='mypage'>My Page</a> | <a href=\"#\" onclick=\"openFileOption();return;\">Upload image</a> | <a href='/logout'>Logout</a> | <a href='/deleteimagelist'>Delete image</a>";
 		return menu;

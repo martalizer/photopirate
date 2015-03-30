@@ -1,8 +1,3 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
@@ -17,10 +12,10 @@ public class IndexServlet extends HttpServlet {
 		req.setAttribute("bilder", images);		
 			
 		if (req.getSession().getAttribute("user") == null) {
-			req.setAttribute("content", menuManager.getNoUserMenu());
+			req.setAttribute("content", MenuManager.getNoUserMenu());
 			req.setAttribute("content", "<a href='" + new Login().getLoginUrl() + "'><img src='login.png'></a>");
 		} else
-			req.setAttribute("content", menuManager.getUserLoggedInMenu());
+			req.setAttribute("content", MenuManager.getUserLoggedInMenu());
 
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}

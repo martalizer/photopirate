@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +33,11 @@ public class FileIO {
 		return generatedFileName;
 	}	
 	
-	public static void getImage(HttpServletResponse resp, File file) throws IOException {
+	public static void pasteImageInResponse(HttpServletResponse resp, File file) throws IOException {
 		resp.setContentLength((int) file.length());
+		Files.copy(file.toPath(), resp.getOutputStream());
+
+		/*
 		FileInputStream in = new FileInputStream(file);
 		OutputStream out = resp.getOutputStream();
 		byte[] buf = new byte[1024];
@@ -43,6 +47,6 @@ public class FileIO {
 		}
 		out.close();
 		in.close();
+		*/
 	}
-
 }

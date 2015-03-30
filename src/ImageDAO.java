@@ -8,8 +8,6 @@ import java.util.List;
 
 public class ImageDAO {
 
-	//public static void addImage(String user, String randomString) {
-	
 	public static void addImage(Image image) {
 		Connection conn;
 		try {
@@ -52,12 +50,12 @@ public class ImageDAO {
 				String username = rs.getString("username");
 				String filename = rs.getString("filename");
 				int id = rs.getInt("id");
-				images.add(new Image(username, filename, id));			
+				images.add(new Image(username, filename, id));
 			}
 			rs.close();
 			stmt.close();
 			conn.close();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return images;

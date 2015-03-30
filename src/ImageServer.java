@@ -1,8 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
@@ -15,19 +12,19 @@ public class ImageServer extends HttpServlet {
 	protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 			throws javax.servlet.ServletException, java.io.IOException {
 
-		String imagename = req.getParameter("file");
+		String imageName = req.getParameter("file");
 		String type = req.getParameter("type");
 		ServletContext cntx = getServletContext();		
 		resp.setContentType("image/jpeg");		
 		
 		if (type.contains("thumb")) {
-			GetImage("/bilder/thumb_", imagename, cntx, resp, 600);
+			GetImage("/bilder/thumb_", imageName, cntx, resp, 600);
 		} else if (type.contains("medium")) {
-			GetImage("/bilder/medium_", imagename, cntx, resp, 2000);
+			GetImage("/bilder/medium_", imageName, cntx, resp, 2000);
 		} else if (type.contains("full")) {
-			GetImage("/bilder/", imagename, cntx, resp, 0);
+			GetImage("/bilder/", imageName, cntx, resp, 0);
 		} else {
-			FileIO.getImage(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
+			FileIO.pasteImageInResponse(resp, new File(cntx.getRealPath("/bilder/fail.jpg")));
 		}
 	}
 
@@ -39,9 +36,9 @@ public class ImageServer extends HttpServlet {
 			thumb.createThumbnail(cntx.getRealPath("/bilder/" + imagename), filename, width);
 		
 		if (!file.isFile()) {
-			FileIO.getImage(resp, new File(cntx.getRealPath("/bilder/fail.jpg"))); 
-		} else { 
-			FileIO.getImage(resp, file);
+			file = new File(cntx.getRealPath("/bilder/fail.jpg"));
 		}
+
+		FileIO.pasteImageInResponse(resp, file);
 	}
 }

@@ -1,13 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -32,18 +25,14 @@ public class FileUploadServlet extends HttpServlet {
 		//Save image to Disk
 		String generatedFileName = FileIO.saveImage(in);
 		
-		//Save image user and filename to database
-		
+		//Store image information in database		
 		ImageDAO.addImage(new Image(user, generatedFileName));
-		
-	//	req.setAttribute("bilder", ImageDAO.getImages(user));
-		
+				
 		List<Image> images = ImageDAO.getImagesFromUser(user);
 		req.setAttribute("bilder", images);		
-		
-		
-		req.setAttribute("pageinfo2", menuManager.message("Image Uploaded!"));
-		req.setAttribute("content", menuManager.getUserLoggedInMenu());
+				
+		req.setAttribute("pageinfo2", MenuManager.message("Image Uploaded!"));
+		req.setAttribute("content", MenuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("index.jsp").forward(req, resp);
 	}
 }

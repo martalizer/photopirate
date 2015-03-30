@@ -16,8 +16,8 @@ public class ListImagesFromUser extends HttpServlet {
 			req.setAttribute("pageinfo", " - " + userFromURL);
 			req.setAttribute(
 					"pageinfo2",
-					menuManager.message("Share this page with others if you like!")
-							+ menuManager.message("It will display all your uploaded images sorted randomly"));
+					MenuManager.message("Share this page with others if you like!")
+							+ MenuManager.message("It will display all your uploaded images sorted randomly"));
 		} else {
 			req.setAttribute("pageinfo", " - " + userFromURL);
 		}

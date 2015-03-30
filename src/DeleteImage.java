@@ -17,7 +17,7 @@ public class DeleteImage extends HttpServlet {
 		List<Image> images = ImageDAO.getImagesFromUser(req.getSession().getAttribute("user").toString());
 		req.setAttribute("bilder", images);		
 		
-		req.setAttribute("content", menuManager.getUserLoggedInMenu());
+		req.setAttribute("content", MenuManager.getUserLoggedInMenu());
 		req.getRequestDispatcher("delete.jsp").forward(req, resp);
 	}
 }
